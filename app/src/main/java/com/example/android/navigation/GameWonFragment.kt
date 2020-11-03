@@ -16,29 +16,34 @@
 
 package com.example.android.navigation
 
+import android.annotation.SuppressLint
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
 import com.example.android.navigation.databinding.FragmentGameWonBinding
 
 
 class GameWonFragment : Fragment() {
+    @SuppressLint("ShowToast")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val binding: FragmentGameWonBinding = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_game_won, container, false)
         binding.nextMatchButton.setOnClickListener { view: View ->
-            // TODO (10) Replace action ID with actionGameWonFragmentToGameFragment
-            // From GameWonFragmentDirections
-            view.findNavController().navigate(R.id.GameFragmentDirections)
+
+            view.findNavController().navigate(GameWonFragmentDirections.GameFragmentDirections())
         }
-        // TODO (08) Add and show toast to get the GameWonFragmentArgs from the arguments Bundle
-        // "NumCorrect: ${args.numCorrect}, NumQuestions: ${args.numQuestions}"
+        var args= arguments?.let { GameWonFragmentArgs.fromBundle(it) }
+        if (args != null) {
+            Toast.makeText(context,"NumCorrect:${args.numCorrect} , NumQuestions:${args.numQuestions}", Toast.LENGTH_LONG).show()
+        }
+
         return binding.root
     }
 }
